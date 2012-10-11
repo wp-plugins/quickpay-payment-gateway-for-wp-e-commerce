@@ -44,7 +44,7 @@ If you need help, please [contact Quickpay.net directly](http://quickpay.net/con
 
 == Changelog ==
 
-== Upgrading from the old non-plugin version of the payment gateway? ==
+= Upgrading from the old non-plugin version of the payment gateway? =
 Then do this:
 1. Navigate to `wp-content/plugins/wp-e-commerce/wpsc-merchants` folder
 1. Delete the `quickpay.php` file
@@ -55,7 +55,7 @@ Then do this:
 * Updated to protocol version 6 (new fields in response MD5).
 
 = 1.2 =
-* Added rounding for odd ørebeløb, since WPEC doesn't do it.
+* Added rounding for odd Ã¸rebelÃ¸b, since WPEC doesn't do it.
 
 = 1.1 =
 * Added cardtypelock = 'creditcard' which supposedly should have a positive effect on conversions.
