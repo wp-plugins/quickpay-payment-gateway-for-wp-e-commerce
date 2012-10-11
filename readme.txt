@@ -30,6 +30,7 @@ The plugin has been tested with WP e-Commerece 3.8.8.5. I can't guarantee that i
 
 = Upgrading from the old non-plugin version of the payment gateway? =
 Then do this:
+
 1. Navigate to `wp-content/plugins/wp-e-commerce/wpsc-merchants` folder
 1. Delete the `quickpay.php` file
 
@@ -45,12 +46,13 @@ If you need help, please [contact Quickpay.net directly](http://quickpay.net/con
 == Changelog ==
 
 = Upgrading from the old non-plugin version of the payment gateway? =
-
 Then do this:
+
 1. Navigate to `wp-content/plugins/wp-e-commerce/wpsc-merchants` folder
 1. Delete the `quickpay.php` file
 
 = 1.3 =
+* Changed to a 'real' plugin.
 * Added trailing slash for callback url if WordPress site address is trailing slash-less.
 * Added new config field for specifying protocol version.
 * Updated to protocol version 6 (new fields in response MD5).
