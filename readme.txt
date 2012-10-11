@@ -45,6 +45,7 @@ If you need help, please [contact Quickpay.net directly](http://quickpay.net/con
 == Changelog ==
 
 = Upgrading from the old non-plugin version of the payment gateway? =
+
 Then do this:
 1. Navigate to `wp-content/plugins/wp-e-commerce/wpsc-merchants` folder
 1. Delete the `quickpay.php` file
