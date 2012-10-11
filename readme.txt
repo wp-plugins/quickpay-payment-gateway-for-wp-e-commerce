@@ -25,7 +25,7 @@ Having installed and activated the plugin, go to the WP e-Commerce settings page
 
 Once that's done, it will tie in with WP e-Commerce automatically.
 
-= NOTE =
+= Compatability =
 The plugin has been tested with WP e-Commerece 3.8.8.5. I can't guarantee that it will work with older versions of WP e-Commerce.
 
 = Upgrading from the old non-plugin version of the payment gateway? =
