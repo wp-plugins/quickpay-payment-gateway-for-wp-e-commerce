@@ -1,4 +1,4 @@
-=== Search by ID ===
+=== Quickpay Payment Gateway for WP e-Commerce ===
 Contributors: wpkonsulent
 Tags: quickpay, merchant, payment gateway, wpec, wp e-commerce, e-commerce
 Requires at least: 3.0.1
