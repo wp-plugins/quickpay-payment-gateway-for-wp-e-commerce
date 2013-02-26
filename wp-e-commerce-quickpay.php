@@ -3,7 +3,7 @@
 	Plugin Name: Quickpay Payment Gateway for WP e-Commerce
 	Plugin URI: http://quickpay.net/modules/wordpress/
 	Description: Adds the Quickpay payment option into WP e-Commerce. Quickpay is a Danish online payment gateway. <strong>If you need support, please <a href="http://quickpay.net/contact/" target="_new">contact Quickpay</a>.</strong>
-	Version: 1.3
+	Version: 1.3.1
 	Author: Uffe Fey, WordPress consultant
 	Author URI: http://wpkonsulent.dk
 */
@@ -37,7 +37,7 @@
 				update_option('quickpay_testmode', '0');
 				
 			if(!get_option('quickpay_protocol') <> '')
-				update_option('quickpay_protocol', '6');
+				update_option('quickpay_protocol', '7');
 				
 			if(!get_option('quickpay_cardtypelock') <> '')
 				update_option('quickpay_cardtypelock', 'creditcard');
@@ -83,6 +83,8 @@
 					// Check if MD5 check has been posted back to us. If so, validate it.
 					if(!empty($md5))
 					{
+						$protocol = (int)get_option('quickpay_protocol');
+					
 						$new_transaction = $_POST['transaction'];
 						$currency = get_option('quickpay_currency');
 						$secret = get_option('quickpay_md5secret');
@@ -101,18 +103,30 @@
 						$cardnumber = $_POST['cardnumber'];
 						$cardhash = $_POST['cardhash'];
 						$cardexpire = $_POST['cardexpire'];
+						
+						if($protocol >= 7)
+							$acquirer = $_POST['acquirer'];
+							
 						$splitpayment = $_POST['splitpayment'];
 						$fraudprobability = $_POST['fraudprobability'];
 						$fraudremarks = $_POST['fraudremarks'];
 						$fraudreport = $_POST['fraudreport'];
 						$fee = $_POST['fee'];
+						
+						$md5tmp = $msgtype . $ordernumber . $amount . $currency . $time . $state . $qpstat . $qpstatmsg . $chstat . $chstatmsg . $merchant . $merchantemail . $new_transaction . $cardtype . $cardnumber . $cardhash . $cardexpire;
+
+						if($protocol >= 7)
+							$md5tmp .= $acquirer;
+
+						$md5tmp .= $splitpayment . $fraudprobability . $fraudremarks . $fraudreport . $fee . $secret;
 													
-						$md5check = md5($msgtype . $ordernumber . $amount . $currency . $time . $state . $qpstat . $qpstatmsg . $chstat . $chstatmsg . $merchant . $merchantemail . $new_transaction . $cardtype . $cardnumber . $cardhash . $cardexpire . $splitpayment . $fraudprobability . $fraudremarks . $fraudreport . $fee . $secret);
+						$md5check = md5($md5tmp);
 					
 						if($md5 == $md5check)
 						{
 							// Order is accepted.
-							$wpdb->query("UPDATE " . WPSC_TABLE_PURCHASE_LOGS . " SET processed = '3', transactid = '" . $new_transaction . "', date = '" . time() . "', notes = 'Payment approved at Quickpay with transaction id " . $new_transaction . ", card type " . $cardtype . ", amount " . $amount . "' WHERE sessionid = " . $sessionid . " LIMIT 1");
+							$notes = "Payment approved at Quickpay:\ntransaction id: " . $new_transaction . "\ncard type: " . $cardtype . "\namount: " . $amount . "\nfraud probability: " . $fraudprobability . "\nfraud remarks: " . $fraudremarks . "\nfraud report: " . $fraudreport;
+							$wpdb->query("UPDATE " . WPSC_TABLE_PURCHASE_LOGS . " SET processed = '3', transactid = '" . $new_transaction . "', date = '" . time() . "', notes = '" . $notes . "' WHERE sessionid = " . $sessionid . " LIMIT 1");
 						}
 						else
 						{

@@ -2,8 +2,8 @@
 Contributors: wpkonsulent
 Tags: quickpay, merchant, payment gateway, wpec, wp e-commerce, e-commerce
 Requires at least: 3.0.1
-Tested up to: 3.4.2
-Stable tag: 1.3
+Tested up to: 3.5.1
+Stable tag: 1.3.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -26,7 +26,7 @@ Having installed and activated the plugin, go to the WP e-Commerce settings page
 Once that's done, it will tie in with WP e-Commerce automatically.
 
 = Compatability =
-The plugin has been tested with WP e-Commerece 3.8.8.5. I can't guarantee that it will work with older versions of WP e-Commerce.
+The plugin has been tested with WP e-Commerece 3.8.9.5. I can't guarantee that it will work with older versions of WP e-Commerce.
 
 = Upgrading from the old non-plugin version of the payment gateway? =
 Then do this:
@@ -51,8 +51,13 @@ Then do this:
 1. Navigate to `wp-content/plugins/wp-e-commerce/wpsc-merchants` folder
 1. Delete the `quickpay.php` file
 
+= 1.3.1 =
+* Changed default protocol version from 6 to 7.
+* Added new 'acquirer' field to callback mechanism if protocol version is 7 and up.
+* Added 'fraudprobability', 'fraudremarks' and 'fraudreport' to the notes of accepted orders.
+
 = 1.3 =
-* Changed to a 'real' plugin.
+* Changed to a "real" plugin.
 * Added trailing slash for callback url if WordPress site address is trailing slash-less.
 * Added new config field for specifying protocol version.
 * Updated to protocol version 6 (new fields in response MD5).
