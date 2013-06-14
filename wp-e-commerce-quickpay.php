@@ -3,7 +3,7 @@
 	Plugin Name: Quickpay Payment Gateway for WP e-Commerce
 	Plugin URI: http://quickpay.net/modules/wordpress/
 	Description: Adds the Quickpay payment option into WP e-Commerce. Quickpay is a Danish online payment gateway. <strong>If you need support, please <a href="http://quickpay.net/contact/" target="_new">contact Quickpay</a>.</strong>
-	Version: 1.3.1
+	Version: 1.3.2
 	Author: Uffe Fey, WordPress consultant
 	Author URI: http://wpkonsulent.dk
 */
@@ -126,7 +126,19 @@
 						{
 							// Order is accepted.
 							$notes = "Payment approved at Quickpay:\ntransaction id: " . $new_transaction . "\ncard type: " . $cardtype . "\namount: " . $amount . "\nfraud probability: " . $fraudprobability . "\nfraud remarks: " . $fraudremarks . "\nfraud report: " . $fraudreport;
-							$wpdb->query("UPDATE " . WPSC_TABLE_PURCHASE_LOGS . " SET processed = '3', transactid = '" . $new_transaction . "', date = '" . time() . "', notes = '" . $notes . "' WHERE sessionid = " . $sessionid . " LIMIT 1");
+							
+							// old way of doing it..
+							//$wpdb->query("UPDATE " . WPSC_TABLE_PURCHASE_LOGS . " SET processed = '3', transactid = '" . $new_transaction . "', date = '" . time() . "', notes = '" . $notes . "' WHERE sessionid = " . $sessionid . " LIMIT 1");
+							
+							$purchase_log = new WPSC_Purchase_Log($sessionid, 'sessionid');
+							
+							if(!$purchase_log->exists() || $purchase_log->is_transaction_completed())
+								return;
+
+							$purchase_log->set('processed', WPSC_Purchase_Log::ACCEPTED_PAYMENT);
+							$purchase_log->set('transactid', $new_transaction);
+							$purchase_log->set('notes', $notes);
+							$purchase_log->save();
 						}
 						else
 						{
